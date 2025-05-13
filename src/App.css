@@ -1,0 +1,851 @@
+
+html[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.main-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f5f7fa;
+  padding: 20px;
+  position: relative;
+}
+
+.language-selector {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 14px;
+  color: #666;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.flag-icon {
+  width: 16px;
+  height: 12px;
+  vertical-align: middle;
+}
+
+.language-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  margin-top: 5px;
+  min-width: 100px;
+}
+
+.language-option {
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #666;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.language-option:hover {
+  background-color: #f0f0f0;
+}
+
+.form-overview-container {
+  display: flex;
+  max-width: 900px;
+  width: 100%;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  min-height: 600px;
+}
+
+.form-section {
+  flex: 2;
+  padding: 30px;
+}
+
+.overview-section {
+  flex: 1;
+  padding: 30px;
+  min-width: 300px;
+  background-color: #f9fbfd;
+  border-left: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+p {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 24px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  border: 1px solid #eee;
+  padding: 16px;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.form-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+  color: #666;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.section-title {
+  font-size: 14px;
+  font-weight: bold;
+  color: #99a3ba;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.phone-input {
+  display: flex;
+  align-items: center;
+}
+
+.form-group select,
+.form-group input {
+  padding: 12px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  font-size: 14px;
+  background: #f7f9fc;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-group .phone-input select {
+  width: 80px;
+  border-right: none;
+  border-radius: 4px 0 0 4px;
+  background: #f7f9fc;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: relative;
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  padding-left: 35px;
+  background-image: url("https://flagcdn.com/24x18/gr.png");
+}
+
+.form-group .phone-input select:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+.form-group .phone-input input {
+  flex: 1;
+  border-radius: 0 4px 4px 0;
+}
+
+.form-group .phone-input select option {
+  padding-left: 35px;
+  background-repeat: no-repeat;
+  background-position: 10px center;
+}
+
+.form-group .phone-input select option[value="+30"] {
+  background-image: url("https://flagcdn.com/24x18/gr.png");
+}
+
+.form-group .phone-input select option[value="+44"] {
+  background-image: url("https://flagcdn.com/24x18/gb.png");
+}
+
+.form-group .phone-input select[value="+30"],
+.form-group .phone-input select:has(option[value="+30"]:checked) {
+  background-image: url("https://flagcdn.com/24x18/gr.png");
+  background-position: 10px center, right 10px center;
+}
+
+.form-group .phone-input select[value="+44"],
+.form-group .phone-input select:has(option[value="+44"]:checked) {
+  background-image: url("https://flagcdn.com/24x18/gb.png");
+  background-position: 10px center, right 10px center;
+}
+
+.address-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.address-input {
+  display: flex;
+  gap: 10px;
+}
+
+.address-input input {
+  flex: 1;
+}
+
+.address-input .small-input {
+  width: 80px;
+}
+
+.address-row {
+  display: flex;
+  gap: 10px;
+}
+
+.address-field {
+  flex: 1;
+}
+
+.address-field select,
+.address-field input {
+  width: 100%;
+}
+
+.payment-options {
+  margin-bottom: 16px;
+}
+
+.payment-method {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  background-color: #e6f0fa;
+  transition: all 0.3s ease;
+}
+
+.payment-method.active {
+  border-color: #3b82f6;
+  background-color: #e6f0fa;
+}
+
+.payment-method label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.payment-method input[type="radio"] {
+  margin: 0 8px 0 0;
+}
+
+.payment-method span {
+  font-size: 14px;
+  color: #333;
+  flex-grow: 1;
+}
+
+.payment-methods {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.card-logo {
+  height: 20px;
+}
+
+.add-payment-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  color: #3b82f6;
+  padding: 0;
+  margin-left: 8px;
+}
+
+.input-full {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #f7f9fc;
+  margin: 12px 0;
+  box-sizing: border-box;
+}
+
+.input-full:focus,
+.card-number-input:focus,
+.card-expiry-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+.card-details {
+  display: flex;
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.card-number-input {
+  flex: 2;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #f7f9fc;
+  box-sizing: border-box;
+}
+
+.card-expiry-input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #f7f9fc;
+  box-sizing: border-box;
+}
+
+.secure-note {
+  font-size: 12px;
+  color: #3b82f6;
+  margin-top: 16px;
+}
+
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.overview-item {
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+  padding: 8px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.overview-item input {
+  display: none;
+}
+
+.overview-item.selected {
+  background-color: #e6f0fa;
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+.discount-note {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: #666;
+  margin: 16px 0;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 20px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #3b82f6;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+.slider.round {
+  border-radius: 20px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.strikethrough {
+  text-decoration: line-through;
+  color: #999;
+}
+
+.overview-section .discount {
+  color: green;
+  font-size: 14px;
+}
+
+.overview-section .total {
+  font-weight: bold;
+  font-size: 16px;
+  margin-top: 16px;
+}
+
+.setup-p .setup-span {
+  color: blue;
+}
+
+.num-price,
+.reg-price,
+.ur-price,
+.setup-p,
+.total,
+.discount {
+  display: flex;
+  justify-content: space-between;
+}
+
+.total span {
+  color: #2563eb;
+}
+
+.terms {
+  display: flex;
+  align-items: flex-start;
+  font-size: 12px;
+  color: #666;
+  margin-top: 16px;
+}
+
+.terms input {
+  margin-right: 8px;
+  margin-top: 2px;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(to right, #3b82f6, #22d3ee);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 16px;
+}
+
+.submit-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.submit-button:hover:not(:disabled) {
+  background: linear-gradient(to right, #2563eb, #06b6d4);
+}
+
+.sepa-logo {
+  width: 60px;
+  height: 50px;
+}
+
+.footer-text {
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  margin-top: 50px;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+@media (max-width: 768px) {
+  html,
+  body {
+    overflow-x: hidden;
+    width: 100%;
+  }
+
+  .main-container {
+    padding: 10px;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .language-selector {
+    top: 10px;
+    right: 10px;
+    font-size: 12px;
+    gap: 4px;
+    max-width: calc(100% - 20px);
+    overflow-wrap: break-word;
+  }
+
+  .flag-icon {
+    width: 14px;
+    height: 10px;
+  }
+
+  .language-menu {
+    min-width: 90px;
+    margin-top: 4px;
+    right: 10px;
+    max-width: calc(100vw - 20px);
+    overflow: hidden;
+  }
+
+  .language-option {
+    padding: 6px 10px;
+    font-size: 12px;
+    overflow-wrap: break-word;
+    white-space: normal;
+  }
+
+  .form-overview-container {
+    flex-direction: column;
+    min-height: auto;
+    max-width: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .form-section {
+    flex: 0;
+    width: 100%;
+    padding: 15px;
+    border-right: none;
+    border-bottom: 1px solid #e0e0e0;
+    box-sizing: border-box;
+  }
+
+  .overview-section {
+    flex: 0;
+    width: 100%;
+    min-width: 0;
+    padding: 15px;
+    border-left: none;
+    border-top: 1px solid #e0e0e0;
+    box-sizing: border-box;
+  }
+
+  h2 {
+    font-size: 18px;
+    margin-bottom: 6px;
+    overflow-wrap: break-word;
+    white-space: normal;
+  }
+
+  p {
+    font-size: 12px;
+    margin-bottom: 12px;
+    overflow-wrap: break-word;
+    white-space: normal;
+  }
+
+  .form-group {
+    margin-bottom: 12px;
+    padding: 10px;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .form-group label {
+    font-size: 10px;
+    margin-bottom: 6px;
+    overflow-wrap: break-word;
+    white-space: normal;
+  }
+
+  .section-title {
+    font-size: 12px;
+    margin-bottom: 8px;
+    overflow-wrap: break-word;
+    white-space: normal;
+  }
+
+  .form-group select,
+  .form-group input {
+    padding: 8px;
+    font-size: 12px;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .phone-input {
+    flex-wrap: nowrap;
+    max-width: 100%;
+  }
+
+  .form-group .phone-input select {
+    width: 65px;
+    padding-left: 25px;
+    background-position: 6px center;
+    max-width: 100%;
+  }
+
+  .form-group .phone-input input {
+    font-size: 12px;
+    max-width: 100%;
+  }
+
+  .address-group {
+    gap: 8px;
+    max-width: 100%;
+  }
+
+  .address-input {
+    flex-direction: column;
+    gap: 8px;
+    max-width: 100%;
+  }
+
+  .address-input input {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .address-input .small-input {
+    width: 100%;
+    max-width: 80px;
+  }
+
+  .address-row {
+    flex-direction: column;
+    gap: 8px;
+    max-width: 100%;
+  }
+
+  .address-field select,
+  .address-field input {
+    font-size: 12px;
+    max-width: 100%;
+  }
+
+  .payment-options {
+    margin-bottom: 10px;
+    max-width: 100%;
+  }
+
+  .payment-method {
+    padding: 8px;
+    margin-bottom: 8px;
+    max-width: 100%;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+  }
+
+  .payment-method span {
+    font-size: 12px;
+    overflow-wrap: break-word;
+    white-space: normal;
+  }
+
+  .payment-method input[type="radio"] {
+    margin: 0 6px 0 0;
+  }
+
+  .payment-methods {
+    gap: 6px;
+    flex-wrap: wrap;
+    max-width: 100%;
+  }
+
+  .card-logo {
+    height: 16px;
+  }
+
+  .add-payment-btn {
+    font-size: 10px;
+    margin-left: 6px;
+    overflow-wrap: break-word;
+    white-space: normal;
+  }
+
+  .input-full {
+    padding: 8px;
+    font-size: 12px;
+    margin: 8px 0;
+    max-width: 100%;
+  }
+
+  .card-details {
+    flex-direction: column;
+    gap: 8px;
+    max-width: 100%;
+  }
+
+  .card-number-input,
+  .card-expiry-input {
+    flex: 1;
+    padding: 8px;
+    font-size: 12px;
+    max-width: 100%;
+  }
+
+  .secure-note {
+    font-size: 10px;
+    margin-top: 10px;
+    overflow-wrap: break-word;
+    white-space: normal;
+  }
+
+  .overview-grid {
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 6px;
+    max-width: 100%;
+  }
+
+  .overview-item {
+    font-size: 12px;
+    padding: 6px;
+    overflow-wrap: break-word;
+    white-space: normal;
+    min-width: 0;
+  }
+
+  .discount-note {
+    font-size: 12px;
+    margin: 10px 0;
+    flex-wrap: wrap;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    white-space: normal;
+    gap: 5px;
+  }
+
+  .switch {
+    width: 36px;
+    height: 18px;
+  }
+
+  .slider:before {
+    height: 14px;
+    width: 14px;
+    left: 2px;
+    bottom: 2px;
+  }
+
+  input:checked + .slider:before {
+    transform: translateX(18px);
+  }
+
+  .overview-section .discount {
+    font-size: 12px;
+    overflow-wrap: break-word;
+    white-space: normal;
+  }
+
+  .overview-section .total {
+    font-size: 14px;
+    margin-top: 10px;
+    overflow-wrap: break-word;
+    white-space: normal;
+  }
+
+  .num-price,
+  .reg-price,
+  .ur-price,
+  .setup-p,
+  .total,
+  .discount {
+    flex-wrap: wrap;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    white-space: normal;
+    gap: 5px;
+  }
+
+  .terms {
+    font-size: 10px;
+    margin-top: 10px;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    white-space: normal;
+    flex-wrap: wrap;
+  }
+
+  .terms input {
+    margin-right: 6px;
+  }
+
+  .submit-button {
+    padding: 10px;
+    font-size: 14px;
+    margin-top: 10px;
+    max-width: 100%;
+  }
+
+  .sepa-logo {
+    width: 50px;
+    height: 40px;
+  }
+
+  .footer-text {
+    font-size: 12px;
+    margin-top: 30px;
+    overflow-wrap: break-word;
+    white-space: normal;
+  }
+
+  .error-message {
+    font-size: 10px;
+    overflow-wrap: break-word;
+    white-space: normal;
+  }
+}
