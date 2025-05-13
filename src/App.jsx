@@ -184,10 +184,10 @@ function App() {
     };
 
     const languageOptions = {
-        'en': '../public/images/gb.png',
-        'gr': '../public/images/gr.png',
-        'fr': '../public/images/fr.png',
-        'es': '../public/images/es.png',
+        'en': '/images/gb.png',
+        'gr': '/images/gr.png',
+        'fr': '/images/fr.png',
+        'es': '/images/es.png',
     };
 
     const currentFlag = languageOptions[formData.language] || '/images/gb.png';
