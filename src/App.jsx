@@ -1,6 +1,6 @@
 
-
 import { useState } from 'react';
+import Select from 'react-select';
 import './App.css';
 
 function App() {
@@ -38,6 +38,12 @@ function App() {
         '24 months': { regularPrice: 27.40, yourPrice: 26.40, basePrice: 633.60 },
         '36 months': { regularPrice: 26.90, yourPrice: 25.90, basePrice: 932.40 },
     };
+
+    const phonePrefixOptions = [
+        { value: '+30', label: '+30', flag: '/images/gr.png' },
+        { value: '+44', label: '+44', flag: '/images/gb.png' },
+        { value: '+20', label: '+20', flag: '/images/eg.webp' },
+    ];
 
     const [pricing, setPricing] = useState(durationPrices['6 months'] || { regularPrice: 29.40, yourPrice: 28.40, basePrice: 176.40, discount: 0.60, setupFee: 0.00, total: 227.20 });
 
@@ -188,6 +194,7 @@ function App() {
         'gr': '/images/gr.png',
         'fr': '/images/fr.png',
         'es': '/images/es.png',
+        'eg': '/images/eg.webp',
     };
 
     const currentFlag = languageOptions[formData.language] || '/images/gb.png';
@@ -218,10 +225,23 @@ function App() {
                         <div className="form-group">
                             <label>LOGIN PHONE NUMBER (preferably the student's)</label>
                             <div className="phone-input">
-                                <select name="loginPhonePrefix" value={formData.loginPhonePrefix} onChange={handleChange}>
-                                    <option value="+30">+30</option>
-                                    <option value="+44">+44</option>
-                                </select>
+                                <Select
+                                    name="loginPhonePrefix"
+                                    options={phonePrefixOptions}
+                                    value={phonePrefixOptions.find(option => option.value === formData.loginPhonePrefix)}
+                                    onChange={(option) => handleChange({ target: { name: 'loginPhonePrefix', value: option.value } })}
+                                    formatOptionLabel={({ label, flag }) => (
+                                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                                            <img src={flag} alt="flag" style={{ width: '20px', marginRight: '5px' }} />
+                                            {label}
+                                        </div>
+                                    )}
+                                    styles={{
+                                        control: (base) => ({ ...base, width: '100px', minHeight: '30px', fontSize: '14px' }),
+                                        menu: (base) => ({ ...base, width: '100px' }),
+                                        option: (base) => ({ ...base, display: 'flex', alignItems: 'center', fontSize: '14px' }),
+                                    }}
+                                />
                                 <input
                                     type="tel"
                                     name="loginPhone"
@@ -235,10 +255,23 @@ function App() {
                         <div className="form-group">
                             <label>CONTACT PHONE NUMBER (preferably the parent's)</label>
                             <div className="phone-input">
-                                <select name="contactPhonePrefix" value={formData.contactPhonePrefix} onChange={handleChange}>
-                                    <option value="+30">+30</option>
-                                    <option value="+44">+44</option>
-                                </select>
+                                <Select
+                                    name="contactPhonePrefix"
+                                    options={phonePrefixOptions}
+                                    value={phonePrefixOptions.find(option => option.value === formData.contactPhonePrefix)}
+                                    onChange={(option) => handleChange({ target: { name: 'contactPhonePrefix', value: option.value } })}
+                                    formatOptionLabel={({ label, flag }) => (
+                                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                                            <img src={flag} alt="flag" style={{ width: '20px', marginRight: '5px' }} />
+                                            {label}
+                                        </div>
+                                    )}
+                                    styles={{
+                                        control: (base) => ({ ...base, width: '100px', minHeight: '30px', fontSize: '14px' }),
+                                        menu: (base) => ({ ...base, width: '100px' }),
+                                        option: (base) => ({ ...base, display: 'flex', alignItems: 'center', fontSize: '14px' }),
+                                    }}
+                                />
                                 <input
                                     type="tel"
                                     name="contactPhone"
