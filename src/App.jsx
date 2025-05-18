@@ -1,14 +1,13 @@
 
 import { useState } from 'react';
-import Select from 'react-select';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 import './App.css';
 
 function App() {
     const [formData, setFormData] = useState({
         loginPhone: '',
-        loginPhonePrefix: '+30',
         contactPhone: '',
-        contactPhonePrefix: '+30',
         email: '',
         name: '',
         address: '',
@@ -31,21 +30,39 @@ function App() {
     const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
 
     const durationPrices = {
-        '6 months': { regularPrice: 29.40, yourPrice: 28.40, basePrice: 176.40 },
-        '9 months': { regularPrice: 28.90, yourPrice: 27.90, basePrice: 251.10 },
-        '12 months': { regularPrice: 28.40, yourPrice: 27.40, basePrice: 328.80 },
-        '18 months': { regularPrice: 27.90, yourPrice: 26.90, basePrice: 484.20 },
-        '24 months': { regularPrice: 27.40, yourPrice: 26.40, basePrice: 633.60 },
-        '36 months': { regularPrice: 26.90, yourPrice: 25.90, basePrice: 932.40 },
+        '6 months': {
+            8: { regularPrice: 29.40, yourPrice: 28.40, basePrice: 176.40 },
+            12: { regularPrice: 44.10, yourPrice: 42.60, basePrice: 264.60 },
+            16: { regularPrice: 58.80, yourPrice: 56.80, basePrice: 352.80 },
+        },
+        '9 months': {
+            8: { regularPrice: 28.90, yourPrice: 27.90, basePrice: 251.10 },
+            12: { regularPrice: 43.35, yourPrice: 41.85, basePrice: 376.65 },
+            16: { regularPrice: 57.80, yourPrice: 55.80, basePrice: 502.20 },
+        },
+        '12 months': {
+            8: { regularPrice: 28.40, yourPrice: 27.40, basePrice: 328.80 },
+            12: { regularPrice: 42.60, yourPrice: 41.10, basePrice: 493.20 },
+            16: { regularPrice: 56.80, yourPrice: 54.80, basePrice: 657.60 },
+        },
+        '18 months': {
+            8: { regularPrice: 27.90, yourPrice: 26.90, basePrice: 484.20 },
+            12: { regularPrice: 41.85, yourPrice: 40.35, basePrice: 726.30 },
+            16: { regularPrice: 55.80, yourPrice: 53.80, basePrice: 968.40 },
+        },
+        '24 months': {
+            8: { regularPrice: 27.40, yourPrice: 26.40, basePrice: 633.60 },
+            12: { regularPrice: 41.10, yourPrice: 39.60, basePrice: 950.40 },
+            16: { regularPrice: 54.80, yourPrice: 52.80, basePrice: 1267.20 },
+        },
+        '36 months': {
+            8: { regularPrice: 26.90, yourPrice: 25.90, basePrice: 932.40 },
+            12: { regularPrice: 40.35, yourPrice: 38.85, basePrice: 1398.60 },
+            16: { regularPrice: 53.80, yourPrice: 51.80, basePrice: 1864.80 },
+        },
     };
 
-    const phonePrefixOptions = [
-        { value: '+30', label: '+30', flag: '/images/gr.png' },
-        { value: '+44', label: '+44', flag: '/images/gb.png' },
-        { value: '+20', label: '+20', flag: '/images/eg.webp' },
-    ];
-
-    const [pricing, setPricing] = useState(durationPrices['6 months'] || { regularPrice: 29.40, yourPrice: 28.40, basePrice: 176.40, discount: 0.60, setupFee: 0.00, total: 227.20 });
+    const [pricing, setPricing] = useState(durationPrices['6 months'][8] || { regularPrice: 29.40, yourPrice: 28.40, basePrice: 176.40, discount: 0.60, setupFee: 0.00, total: 227.20 });
 
     const validateForm = () => {
         const newErrors = {};
@@ -77,9 +94,18 @@ function App() {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
 
-        if (name === 'duration') {
-            const newPricingData = durationPrices[value] || durationPrices['6 months'];
-            const countryDiscount = formData.country === 'Greece' ? 0.60 : 0.00;
+        if (name === 'duration' || name === 'sessions') {
+            const selectedDuration = name === 'duration' ? value : formData.duration;
+            const selectedSessions = name === 'sessions' ? value : formData.sessions;
+            const newPricingData = durationPrices[selectedDuration][selectedSessions] || durationPrices['6 months'][8];
+
+            const countryDiscounts = {
+                'Greece': 0.60,
+                'UK': 0.60,
+                'Egypt': 0.60,
+                'default': 0.00,
+            };
+            const countryDiscount = countryDiscounts[formData.country] || countryDiscounts['default'];
             const advanceDiscount = formData.payInAdvance ? newPricingData.basePrice * 0.05 : 0;
             const totalDiscount = countryDiscount + advanceDiscount;
             const total = newPricingData.basePrice - totalDiscount;
@@ -103,14 +129,20 @@ function App() {
     const handlePayInAdvanceChange = (e) => {
         const isChecked = e.target.checked;
         setFormData({ ...formData, payInAdvance: isChecked });
+        const newPricingData = durationPrices[formData.duration][formData.sessions] || durationPrices['6 months'][8];
 
-        const countryDiscount = formData.country === 'Greece' ? 0.60 : 0.00;
-        const advanceDiscount = isChecked ? (pricing.basePrice || 176.40) * 0.05 : 0;
+        const countryDiscounts = {
+            'Greece': 0.60,
+            'UK': 0.60,
+            'Egypt': 0.60,
+            'default': 0.00,
+        };
+        const countryDiscount = countryDiscounts[formData.country] || countryDiscounts['default'];
+        const advanceDiscount = isChecked ? newPricingData.basePrice * 0.05 : 0;
         const totalDiscount = countryDiscount + advanceDiscount;
-        const total = (pricing.basePrice || 176.40) - totalDiscount;
-
+        const total = newPricingData.basePrice - totalDiscount;
         setPricing({
-            ...pricing,
+            ...newPricingData,
             discount: totalDiscount,
             total,
         });
@@ -120,14 +152,21 @@ function App() {
         const country = e.target.value;
         setFormData({ ...formData, country });
         setErrors({ ...errors, country: '' });
+        const newPricingData = durationPrices[formData.duration][formData.sessions] || durationPrices['6 months'][8];
 
-        const countryDiscount = country === 'Greece' ? 0.60 : 0.00;
-        const advanceDiscount = formData.payInAdvance ? (pricing.basePrice || 176.40) * 0.05 : 0;
+        const countryDiscounts = {
+            'Greece': 0.60,
+            'UK': 0.60,
+            'Egypt': 0.60,
+            'default': 0.00,
+        };
+
+        const countryDiscount = countryDiscounts[country] || countryDiscounts['default'];
+        const advanceDiscount = formData.payInAdvance ? newPricingData.basePrice * 0.05 : 0;
         const totalDiscount = countryDiscount + advanceDiscount;
-        const total = (pricing.basePrice || 176.40) - totalDiscount;
-
+        const total = newPricingData.basePrice - totalDiscount;
         setPricing({
-            ...pricing,
+            ...newPricingData,
             discount: totalDiscount,
             total,
         });
@@ -160,9 +199,7 @@ function App() {
 
                 setFormData({
                     loginPhone: '',
-                    loginPhonePrefix: '+30',
                     contactPhone: '',
-                    contactPhonePrefix: '+30',
                     email: '',
                     name: '',
                     address: '',
@@ -180,7 +217,7 @@ function App() {
                     language: 'en',
                 });
                 setTermsAccepted(false);
-                setPricing(durationPrices['6 months']);
+                setPricing(durationPrices['6 months'][8]);
                 setErrors({});
             } catch (error) {
                 console.error('Error submitting order:', error);
@@ -224,62 +261,30 @@ function App() {
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
                             <label>LOGIN PHONE NUMBER (preferably the student's)</label>
-                            <div className="phone-input">
-                                <Select
-                                    name="loginPhonePrefix"
-                                    options={phonePrefixOptions}
-                                    value={phonePrefixOptions.find(option => option.value === formData.loginPhonePrefix)}
-                                    onChange={(option) => handleChange({ target: { name: 'loginPhonePrefix', value: option.value } })}
-                                    formatOptionLabel={({ label, flag }) => (
-                                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                                            <img src={flag} alt="flag" style={{ width: '20px', marginRight: '5px' }} />
-                                            {label}
-                                        </div>
-                                    )}
-                                    styles={{
-                                        control: (base) => ({ ...base, width: '100px', minHeight: '30px', fontSize: '14px' }),
-                                        menu: (base) => ({ ...base, width: '100px' }),
-                                        option: (base) => ({ ...base, display: 'flex', alignItems: 'center', fontSize: '14px' }),
-                                    }}
-                                />
-                                <input
-                                    type="tel"
-                                    name="loginPhone"
-                                    value={formData.loginPhone}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
+                            <PhoneInput
+                                country={'gr'}
+                                value={formData.loginPhone}
+                                onChange={(phone) => handleChange({ target: { name: 'loginPhone', value: phone } })}
+                                inputProps={{
+                                    name: 'loginPhone',
+                                    required: true,
+                                }}
+                                containerClass="phone-input"
+                            />
                             {errors.loginPhone && <p className="error-message">{errors.loginPhone}</p>}
                         </div>
                         <div className="form-group">
                             <label>CONTACT PHONE NUMBER (preferably the parent's)</label>
-                            <div className="phone-input">
-                                <Select
-                                    name="contactPhonePrefix"
-                                    options={phonePrefixOptions}
-                                    value={phonePrefixOptions.find(option => option.value === formData.contactPhonePrefix)}
-                                    onChange={(option) => handleChange({ target: { name: 'contactPhonePrefix', value: option.value } })}
-                                    formatOptionLabel={({ label, flag }) => (
-                                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                                            <img src={flag} alt="flag" style={{ width: '20px', marginRight: '5px' }} />
-                                            {label}
-                                        </div>
-                                    )}
-                                    styles={{
-                                        control: (base) => ({ ...base, width: '100px', minHeight: '30px', fontSize: '14px' }),
-                                        menu: (base) => ({ ...base, width: '100px' }),
-                                        option: (base) => ({ ...base, display: 'flex', alignItems: 'center', fontSize: '14px' }),
-                                    }}
-                                />
-                                <input
-                                    type="tel"
-                                    name="contactPhone"
-                                    value={formData.contactPhone}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
+                            <PhoneInput
+                                country={'gr'}
+                                value={formData.contactPhone}
+                                onChange={(phone) => handleChange({ target: { name: 'contactPhone', value: phone } })}
+                                inputProps={{
+                                    name: 'contactPhone',
+                                    required: true,
+                                }}
+                                containerClass="phone-input"
+                            />
                             {errors.contactPhone && <p className="error-message">{errors.contactPhone}</p>}
                         </div>
                         <div className="form-group">
@@ -359,6 +364,7 @@ function App() {
                                             <option value="">Country</option>
                                             <option value="Greece">Greece</option>
                                             <option value="UK">United Kingdom</option>
+                                            <option value="Egypt">Egypt</option>
                                         </select>
                                         {errors.country && <p className="error-message">{errors.country}</p>}
                                     </div>
@@ -374,6 +380,8 @@ function App() {
                                 required
                             >
                                 <option value="8">8 Sessions</option>
+                                <option value="12">12 Sessions</option>
+                                <option value="16">16 Sessions</option>
                             </select>
                         </div>
                         <div className="form-group">
@@ -529,10 +537,10 @@ function App() {
                             <span className="slider round"></span>
                         </label>
                     </div>
-                    <p className='num-price'>Number of sessions p.m.: <span>8</span></p>
+                    <p className='num-price'>Number of sessions p.m.: <span>{formData.sessions}</span></p>
                     <p className='reg-price'>Regular Price: <span className="strikethrough">{(pricing.regularPrice || 29.40).toFixed(2)}€</span></p>
                     <p className='ur-price'>Your Price: <span>{(pricing.yourPrice || 28.40).toFixed(2)}€</span></p>
-                    <p className="discount">Discount 4%: <span>{Math.abs(formData.country === 'Greece' ? 0.60 : 0.00).toFixed(2)}€</span></p>
+                    <p className="discount">Discount 4%: <span>{(pricing.discount - (formData.payInAdvance ? (pricing.basePrice * 0.05) : 0)).toFixed(2)}€</span></p>
                     {formData.payInAdvance && <p className="discount">Extra 5% Discount: <span>{((pricing.basePrice || 176.40) * 0.05).toFixed(2)}€</span></p>}
                     <p className='setup-p'>Setup Fee: <span className='setup-span'>{(pricing.setupFee || 0.00).toFixed(2)}€</span></p>
                     <p className="total">Total p.m.: <span>{(pricing.total || 227.20).toFixed(2)}€</span></p>
